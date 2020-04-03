@@ -36,9 +36,15 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use((req, res, next) => {
+    res.locals.user = req.user
+    next()
+})
+
 // add routers
 app.use(require('./routes/home'))
 app.use('/users', require('./routes/user'))
+app.use('/todos', require('./routes/todo'))
 
 app.listen(3000, () => {
     console.log('localhost://3000')
