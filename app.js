@@ -6,10 +6,6 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
 
-const db = require('./models')
-const Todo = db.Todo
-const User = db.User
-
 // handlebars
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -31,17 +27,14 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')(passport) 
+
+// locals variable
 app.use((req, res, next) => {
     res.locals.user = req.user
     next()
 })
 
-app.use((req, res, next) => {
-    res.locals.user = req.user
-    next()
-})
-
-// add routers
+// routers
 app.use(require('./routes/home'))
 app.use('/users', require('./routes/user'))
 app.use('/todos', require('./routes/todo'))
